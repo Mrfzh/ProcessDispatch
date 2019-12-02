@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:minHeight="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_item_dispatch_result_process_name"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="进程名称"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/tv_item_dispatch_result_start_time"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="开始时间"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/tv_item_dispatch_result_complete_time"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="完成时间"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/tv_item_dispatch_result_turn_time"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="周转时间"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/tv_item_dispatch_result_weight_turn_time"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="带权周转"
+            android:textColor="#222222" />
+
+    </LinearLayout>
+
+</RelativeLayout>

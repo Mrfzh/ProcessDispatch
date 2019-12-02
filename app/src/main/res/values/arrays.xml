@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="method">
+        <item>先来先服务（FCFS）</item>
+        <item>短进程优先（SPF）</item>
+        <item>响应比高者优先（HRN）</item>
+    </string-array>
+</resources>

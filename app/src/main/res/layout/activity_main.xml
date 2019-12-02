@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- 添加进程 -->
+
+    <TextView
+        android:id="@+id/tv_main_add_process_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="添加新进程"
+        android:textColor="#666666"
+        android:textSize="20sp"
+        android:gravity="start|center"
+        android:background="#e1e1e1"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_main_process_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:text="名称"
+        android:textColor="#222222"
+        android:textSize="16sp"
+        android:gravity="start|center"
+        android:layout_marginStart="5dp" />
+
+    <EditText
+        android:id="@+id/et_main_process_name"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_process_name_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_light"
+        android:maxLength="2"/>
+
+    <TextView
+        android:id="@+id/tv_main_arrive_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/et_main_process_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:text="到达时间"
+        android:textColor="#222222"
+        android:textSize="16sp"
+        android:gravity="start|center"
+        android:layout_marginStart="5dp" />
+
+    <EditText
+        android:id="@+id/et_main_commit_time"
+        android:layout_width="30dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_arrive_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_light"
+        android:maxLength="2"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tv_main_service_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/et_main_commit_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:text="服务时间"
+        android:textColor="#222222"
+        android:textSize="16sp"
+        android:gravity="start|center"
+        android:layout_marginStart="5dp" />
+
+    <EditText
+        android:id="@+id/et_main_service_time"
+        android:layout_width="30dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_service_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_light"
+        android:maxLength="2"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/btn_main_commit_process"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="提交"
+        app:layout_constraintStart_toEndOf="@id/et_main_service_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        app:layout_constraintEnd_toStartOf="@id/btn_main_clear_process"/>
+
+    <Button
+        android:id="@+id/btn_main_clear_process"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="清空"
+        app:layout_constraintStart_toEndOf="@id/btn_main_commit_process"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_add_process_text"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 选择调度算法 -->
+
+    <TextView
+        android:id="@+id/tv_main_method_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_process_name_text"
+        android:text="调度算法"
+        android:textColor="#666666"
+        android:textSize="20sp"
+        android:gravity="start|center"
+        android:background="#e1e1e1"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+    
+    <Spinner
+        android:id="@+id/sp_main_method_list"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_method_text"
+        android:entries="@array/method" />
+
+    <Button
+        android:id="@+id/btn_main_run"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="运行"
+        app:layout_constraintStart_toEndOf="@id/sp_main_method_list"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_method_text"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 进程列表 -->
+
+    <TextView
+        android:id="@+id/tv_main_process_list_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sp_main_method_list"
+        android:text="进程列表"
+        android:textColor="#666666"
+        android:textSize="20sp"
+        android:gravity="start|center"
+        android:background="#e1e1e1"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_main_process_list_process_name_text"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_process_list_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_process_list_commit_time_text"
+        android:text="进程名称"
+        android:textColor="#222222"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_main_process_list_commit_time_text"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_process_list_process_name_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_process_list_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_process_list_service_time_text"
+        android:text="到达时间"
+        android:textColor="#222222"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_main_process_list_service_time_text"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_process_list_commit_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_process_list_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="服务时间"
+        android:textColor="#222222"
+        android:gravity="center"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_process_list"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_process_list_process_name_text"
+        app:layout_constraintBottom_toTopOf="@id/tv_main_dispatch_result_text" />
+
+    <!-- 调度结果 -->
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_main_process_list"
+        android:text="调度结果"
+        android:textColor="#666666"
+        android:textSize="20sp"
+        android:gravity="start|center"
+        android:background="#e1e1e1"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_process_name_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_dispatch_result_start_time_text"
+        android:text="进程名称"
+        android:textColor="#222222"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_start_time_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_process_name_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_dispatch_result_complete_time_text"
+        android:text="开始时间"
+        android:textColor="#222222"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_complete_time_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_start_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_dispatch_result_turn_time_text"
+        android:text="完成时间"
+        android:textColor="#222222"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_turn_time_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_complete_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_text"
+        app:layout_constraintEnd_toStartOf="@id/tv_main_dispatch_result_weight_turn_time_text"
+        android:text="周转时间"
+        android:textColor="#222222"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_weight_turn_time_text"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_turn_time_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="带权周转时间"
+        android:textColor="#222222"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_dispatch_result"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_dispatch_result_process_name_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_main_dispatch_result_average_turn_time_text"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_average_turn_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="平均周转时间:"
+        android:textColor="#222222"
+        android:gravity="center"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_average_turn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:textColor="#222222"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_average_turn_time_text"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_weight_average_turn_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="带权平均周转时间:"
+        android:textColor="#222222"
+        android:gravity="center"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_average_turn_time"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_main_dispatch_result_weight_average_turn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:textColor="#222222"
+        android:gravity="center"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/tv_main_dispatch_result_weight_average_turn_time_text"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
