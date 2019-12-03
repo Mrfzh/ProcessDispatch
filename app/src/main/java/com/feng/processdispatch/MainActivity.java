@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ProcessData processData = mProcessDataList.get(i);
             startTime = Math.max(completeTime, processData.getCommitTime());
             completeTime = startTime + processData.getServiceTime();    // 完成时间 = 开始时间 + 服务时间
-            turnTime = completeTime - processData.getServiceTime();    // 周转时间 = 完成时间 - 到达时间
+            turnTime = completeTime - processData.getCommitTime();    // 周转时间 = 完成时间 - 到达时间
             weightTurnTime = turnTime / processData.getServiceTime();   // 带权周转时间 = 周转时间 / 服务时间
             mResultDataList.add(new ResultData(processData.getProcessName(), startTime, completeTime,
                     turnTime, weightTurnTime));
@@ -255,57 +255,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 执行短作业优先算法
      */
     private void doSPF() {
-        // 记录每个进程剩余的服务时间
-        int[] serviceTimes = new int[mProcessDataList.size()];
-        for (int i = 0; i < mProcessDataList.size(); i++) {
-            serviceTimes[i] = mProcessDataList.get(i).getServiceTime();
-        }
-        // 记录每个进程的开始运行时间
-        int[] startTimes = new int[mProcessDataList.size()];
-        for (int i = 0; i < mProcessDataList.size(); i++) {
-            startTimes[i] = -1;
-        }
-        // 按照时间轴进行调度
-        boolean isFinished = false;
         int currTime = mProcessDataList.get(0).getCommitTime();
-        while (!isFinished) {
-            isFinished = true;
+        boolean[] hasCompleted = new boolean[mProcessDataList.size()];  // 当前进程是否执行完毕
+        int finishNum = 0;  // 完成任务的进程数
+        while (finishNum < mProcessDataList.size()) {
             int index = -1; // 当前需要执行的进程
             int minServiceTime = Integer.MAX_VALUE;
-            int nextTime = Integer.MAX_VALUE;  // 下一时间
+            boolean hasFound = false;
             for (int i = 0; i < mProcessDataList.size(); i++) {
-                if (serviceTimes[i] == 0) { // 该进程已执行完
+                if (hasCompleted[i] || mProcessDataList.get(i).getCommitTime() > currTime) {
                     continue;
                 }
-                isFinished = false;
-                ProcessData processData = mProcessDataList.get(i);
-                if (processData.getCommitTime() > currTime) {
-                    nextTime = Math.min(processData.getCommitTime(), nextTime);
-                }
-                if (processData.getCommitTime() <= currTime) {
-                    if (processData.getServiceTime() < minServiceTime) {
-                        index = i;
-                        minServiceTime = processData.getServiceTime();
-                    }
+                hasFound = true;
+                if (mProcessDataList.get(i).getServiceTime() < minServiceTime) {
+                    minServiceTime = mProcessDataList.get(i).getServiceTime();
+                    index = i;
                 }
             }
-            if (isFinished) {
+            if (!hasFound) {
+                // 更新 currTime
+                int temp = Integer.MAX_VALUE;
+                for (int i = 0; i < mProcessDataList.size(); i++) {
+                    int currCommitTime = mProcessDataList.get(i).getCommitTime();
+                    if (currCommitTime > currTime) {
+                        temp = Math.min(temp, currCommitTime);
+                    }
+                }
+                currTime = temp;
                 continue;
             }
             // 执行当前进程
-            if (startTimes[index] == -1) {
-                startTimes[index] = currTime;
-            }
-            int time = Math.min(nextTime - currTime, serviceTimes[index]);
-            serviceTimes[index] -= time;
-            currTime += time;
-            // 查看该进程是否执行完毕
-            if (serviceTimes[index] == 0) {
-                float turnTime = currTime - mProcessDataList.get(index).getCommitTime();
-                float weightTurnTime = turnTime / mProcessDataList.get(index).getServiceTime();
-                mResultDataList.add(new ResultData(mProcessDataList.get(index).getProcessName(),
-                        startTimes[index], currTime,turnTime, weightTurnTime));
-            }
+            hasCompleted[index] = true;
+            finishNum++;
+            int completeTime = currTime + mProcessDataList.get(index).getServiceTime();
+            float turnTime = completeTime - mProcessDataList.get(index).getCommitTime();
+            float weightTurnTime = turnTime / mProcessDataList.get(index).getServiceTime();
+            mResultDataList.add(new ResultData(mProcessDataList.get(index).getProcessName(),
+                    currTime, completeTime,turnTime, weightTurnTime));
+            currTime = completeTime;
         }
     }
 
@@ -317,17 +304,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 优先权 = (等待时间 + 服务时间) / 服务时间
         int currTime = mProcessDataList.get(0).getCommitTime();   // 当前时间
         boolean[] hasCompleted = new boolean[mProcessDataList.size()];  // 记录该进程是否已执行
-        boolean isFinished = false;
-        while (!isFinished) {
-            isFinished = true;
+        int finishNum = 0;  // 完成任务的进程数
+        while (finishNum < mProcessDataList.size()) {
             int maxPriority = Integer.MIN_VALUE;
             int maxIndex = -1;
             // 比较各进程的优先权
+            boolean hasFound = false;
             for (int i = 0; i < mProcessDataList.size(); i++) {
                 if (hasCompleted[i] || mProcessDataList.get(i).getCommitTime() > currTime) {
                     continue;
                 }
-                isFinished = false;
+                hasFound = true;
                 int currPriority = (currTime - mProcessDataList.get(i).getCommitTime()
                         + mProcessDataList.get(i).getServiceTime()) /
                         mProcessDataList.get(i).getServiceTime();
@@ -336,10 +323,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     maxIndex = i;
                 }
             }
-            if (isFinished) {
+            if (!hasFound) {
+                // 更新 currTime
+                int temp = Integer.MAX_VALUE;
+                for (int i = 0; i < mProcessDataList.size(); i++) {
+                    int currCommitTime = mProcessDataList.get(i).getCommitTime();
+                    if (currCommitTime > currTime) {
+                        temp = Math.min(temp, currCommitTime);
+                    }
+                }
+                currTime = temp;
                 continue;
             }
             // 执行优先级最高的进程
+            finishNum++;
             int completeTime = currTime + mProcessDataList.get(maxIndex).getServiceTime();
             float turnTime = completeTime - mProcessDataList.get(maxIndex).getCommitTime();
             float weightTurnTime = turnTime / mProcessDataList.get(maxIndex).getServiceTime();
